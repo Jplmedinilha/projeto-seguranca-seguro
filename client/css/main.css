@@ -1,0 +1,124 @@
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding: 20px;
+}
+
+.product-form {
+    background-color: #FF5733; /* Azul */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #fff; /* Texto branco para contrastar com o fundo escuro */
+    margin-bottom: 20px;
+}
+
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    
+}
+
+.product-table th, .product-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+.product-table td {
+    background-color: #e4ebf1; /* Azul */
+
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}
+
+.errMsg {
+
+    font-weight: bolder;
+    color: red;
+    font-size: 25px;
+}
+
+  .styled-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  /* .styled-list li {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .styled-list li:hover {
+    background-color: #2980b9;
+  } */
+
+  .styled-list li:nth-child(-n+12) {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .styled-list li:nth-child(-n+12):hover {
+    background-color: #2980b9;
+  }
+
+  .styled-list li:nth-child(-n+12) {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .styled-list li:nth-child(-n+12):hover {
+    background-color: #2980b9;
+  }
+
+  .styled-list li:nth-child(n+13) {
+    background-color: rgb(82, 124, 153);
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+  }
+
+  .styled-list li:nth-child(n+13):hover {
+    background-color: #8ec8ee;
+
+  }
